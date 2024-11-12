@@ -9,6 +9,8 @@
 - **File Upload and Download**: Admins can upload files, organize them, and download files on demand.
 - **Search and Filter**: Search files by name and format for quick and easy access.
 - **Download Tracking**: Tracks file download counts to keep a record of file popularity.
+- **File Download Logging**: Each download by a user is logged, recording the user’s name, file, and download timestamp.
+- **User Activity Statistics**: Admins can monitor each user's file download statistics, via the admin dashboard.
 - **Pagination**: Paginated file lists for efficient browsing, especially for large datasets.
 
 ## Installation
