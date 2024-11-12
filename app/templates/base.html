@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="icon" href="{{url_for('static', filename='img/Logo.svg')}}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+</head>
+<body>
+
+{% with messages = get_flashed_messages(category_filter=["error"]) %}
+{% if messages %}
+<script>
+    alert("{{ messages[0] }}");
+</script>
+{% endif %}
+{% endwith %}
+
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="{{ url_for('main.index') }}">
+                <img src="{{url_for('static', filename='img/Logo.svg')}}">
+            </a>
+        </div>
+
+        {%block header%} {%endblock%}
+
+    </div>
+</header>
+
+<main>
+
+    {%block main%} {%endblock%}
+
+</main>
+
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% include 'auth/header.html' %}
+{% endblock %}
+
+{% block main %}
+<div class="dialog-container">
+    <h1>Sing up</h1>
+
+    <form class="dialog-form" action="{{ url_for('user.create', next='main.index') }}" method="post">
+        {{ form.csrf_token }}
+
+        {{ form.username.label() }}
+        {{ form.username() }}
+
+        <div id='auth_warning' style="display: none; color: #D9534F"></div>
+
+        {{ form.password.label() }}
+        {{ form.password() }}
+
+        <div class="footer">
+            <div class="auth-switch">
+                Already have an account? <a href="{{url_for('auth.login')}}">Log in</a>
+            </div>
+            {{ form.submit() }}
+        </div>
+    </form>
+</div>
+{% endblock %}

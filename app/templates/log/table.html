@@ -1,0 +1,20 @@
+{% extends 'baseTable.html' %}
+
+{% block tableContent %}
+<div class="header">
+    <div class="filter user">User</div>
+    <div class="filter file">File</div>
+    <div class="filter time">Time</div>
+</div>
+
+<div class="content">
+    {% for log in logs %}
+    <div class="entry">
+        <div class="entry-attribute user">{{ log.user.username }}</div>
+        <div class="entry-attribute file">{{ log.file.name }}</div>
+        <div class="entry-attribute time">{{ log.timestamp.strftime("%d-%m-%y %H:%M") }}</div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

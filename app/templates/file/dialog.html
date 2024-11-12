@@ -1,0 +1,65 @@
+<div class="dialog {{ dialog_type }}">
+    <div class="dialog-container">
+
+        <div class="dialog-close" onclick="closeDialog('{{ dialog_type }}')">&times;</div>
+        <h1>{{ dialog_title }}</h1>
+
+        <form class="dialog-form" method="post" enctype="multipart/form-data">
+            <div class="dialog-field">
+                <label for="file_name">File name</label>
+                <input type="text" id="file_name" name="file_name" required>
+            </div>
+
+            <div class="dialog-field">
+                <label for="file">File</label>
+                <div class="handler">
+                    <input type="text" id="file" readonly>
+                    <div class="file-button upload" onclick="triggerFileUpload('{{ dialog_type }}')">
+                        <img src="{{ url_for('static', filename='img/UploadMini.svg') }}">
+                    </div>
+                    <input type="file" id="fileInput" name="file" style="display: none;"
+                           onchange="handleFileUpload(event, '{{ dialog_type }}')">
+
+                    {% if dialog_type != 'add' %}
+                    <a class="file-button download">
+                        <img src="{{ url_for('static', filename='img/DownloadMini.svg') }}">
+                    </a>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div class="dialog-field">
+                <label for="allowed-users">Allowed users</label>
+                <div class="handler">
+                    <input type="text" id="allowed-users" name="allowed-users" readonly>
+                    <div class="open-list-button dropdown-button" onclick="toggleDropdown('usersDropdown {{ dialog_type }}')">
+                        <img src="{{ url_for('static', filename='img/SelectArrow.svg') }}">
+                    </div>
+                </div>
+                <div class="dropdown-menu" id="usersDropdown {{ dialog_type }}">
+                    <div class="dropdown-content">
+                        {% for user in users %}
+                        {% if not user.is_admin %}
+                        <div class="dropdown-element">
+                            <label for="User {{ user.id }}">{{ user.username }}</label>
+                            <input type="checkbox" value="{{ user.username }}" id="User {{ user.id }}"
+                                   onclick="selectUser(this, '{{ dialog_type }}')">
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                {% if dialog_type != 'add' %}
+                <a class="dialog-button danger"> Delete </a>
+                {% endif %}
+                <button class="dialog-button success" type="submit">Save</button>
+            </div>
+        </form>
+        </form>
+    </div>
+</div>

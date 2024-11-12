@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="../img/Logo.svg">
+        </div>
+        <div class="header-content">
+            <div class="header-title">FileHub</div>
+            <div class="search">
+                <img class="search-icon" src="../img/Search.svg">
+                <input type="text" id="search-text">
+            </div>
+            <div class="user-button dropdown-button" onclick="toggleDropdown('userDropdown')">
+                <img src="../img/User.svg">
+            </div>
+            <div class="dropdown-menu" id="userDropdown">
+                <div class="dropdown-content">
+                    <div class="dropdown-element">
+                        <a href="#">Admin panel</a>
+                    </div>
+                    <div class="dropdown-element">
+                        <a href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-element">
+                Files
+            </div>
+            <div class="sidebar-element">
+                Users
+            </div>
+            <div class="sidebar-element">
+                Logs
+            </div>
+        </div>
+    </div>
+
+    <div class="main-area">
+        <div class="content-area">
+            <div class="content-container">
+                <div class="header">
+                    <div class="filter type">Type</div>
+                    <div class="filter name">Name</div>
+                    <div class="filter downloads">Downloads</div>
+                    <div class="entry-button add" onclick="openDialog('add')">
+                        <img src="../img/Add.svg">
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="entry">
+                        <div class="entry-attribute type">.mp3</div>
+                        <div class="entry-attribute name">Everybody - Kanye West</div>
+                        <div class="entry-attribute downloads">155,563</div>
+<!--                        <div class="entry-button download">-->
+<!--                            <img src="../img/Download.svg">-->
+<!--                        </div>-->
+                        <div class="entry-button details">
+                            <img src="../img/Details.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pagination">
+                    <div class="page-button previous">
+                        <img src="../img/PreviousPage.svg">
+                    </div>
+                    <div class="page-number">
+                        <div class="current-page">2</div>
+                        <div class="page-separator">/</div>
+                        <div class="page-count">10</div>
+                    </div>
+                    <div class="page-button next">
+                        <img src="../img/NextPage.svg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="../js/script.js"></script>
+</body>
+</html>
+
+<div id="overlay" class="overlay" onclick="closeAllDialogs()"></div>
+
+<div class="dialog add">
+    <div class="dialog-container">
+        <div class="dialog-close" onclick="closeDialog('add')">&times;</div>
+        <h1>Adding</h1>
+        <form class="dialog-form">
+            <div class="dialog-field">
+                <label for="file_name">File name</label>
+                <input type="text" id="file_name" name="file_name" required>
+            </div>
+
+            <div class="dialog-field">
+                <label for="file">File</label>
+                <div class="handler">
+                    <input type="text" id="file" name="file" readonly>
+                    <div class="file-button upload" onclick="openFilePicker()">
+                        <img src="../img/UploadMini.svg">
+                    </div>
+                    <!--                    <div class="file-button download">-->
+                    <!--                        <img src="../img/DownloadMini.svg">-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+
+            <div class="dialog-field">
+                <label for="allowed-users">Allowed users</label>
+                <div class="handler">
+                    <input id="allowed-users" name="allowed-users" readonly>
+                    <div class="open-list-button dropdown-button" onclick="toggleDropdown('usersDropdown')">
+                        <img src="../img/SelectArrow.svg">
+                    </div>
+                </div>
+                <div class="dropdown-menu" id="usersDropdown">
+                    <div class="dropdown-content">
+                        <div class="dropdown-element">
+                            <label for="User-1">User 1</label>
+                            <input type="checkbox" value="User 1" id="User-1" onclick="selectUser(this)">
+                        </div>
+                        <div class="dropdown-element">
+                            <label for="User-2">User 2</label>
+                            <input type="checkbox" value="User 1" id="User-2" onclick="selectUser(this)">
+                        </div>
+                        <div class="dropdown-element">
+                            <label for="User-3">User 3</label>
+                            <input type="checkbox" value="User 1" id="User-3" onclick="selectUser(this)">
+                        </div>
+                        <div class="dropdown-element">
+                            <label for="User-4">User 4</label>
+                            <input type="checkbox" value="User 1" id="User-4" onclick="selectUser(this)">
+                        </div>
+                        <div class="dropdown-element">
+                            <label for="User-5">User 5</label>
+                            <input type="checkbox" value="User 1" id="User-5" onclick="selectUser(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <!--                <button class="dialog-button danger">Delete</button>-->
+                <button class="dialog-button success">Save</button>
+            </div>
+        </form>
+        </form>
+    </div>
+</div>

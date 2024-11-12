@@ -1,0 +1,49 @@
+{% extends 'baseTable.html' %}
+
+{% block tableContent %}
+<div class="header">
+    <div class="filter type">Type</div>
+    <div class="filter name">Name</div>
+    <div class="filter downloads">Downloads</div>
+
+    {% if current_user.is_admin %}
+    <div class="entry-button add" onclick="openFileAddDialog()">
+        <img src="{{url_for('static', filename='img/Add.svg')}}">
+    </div>
+    {% endif %}
+
+</div>
+
+<div class="content">
+    {% for file in files %}
+    <div class="entry">
+        <div class="entry-attribute type">{{ file.format }}</div>
+        <div class="entry-attribute name">{{ file.name }}</div>
+        <div class="entry-attribute downloads">{{file.download_count}}</div>
+        {% if current_user.is_admin %}
+        <div class="entry-button details" onclick="openFileEditDialog('{{ file.id }}')">
+            <img src="{{url_for('static', filename='img/Details.svg')}}">
+        </div>
+
+        {% else%}
+        <a class="entry-button download" href="{{ url_for('file.download', file_id=file.id) }}">
+            <img src="{{url_for('static', filename='img/Download.svg')}}">
+        </a>
+        {% endif %}
+
+
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+
+{% with dialog_type='add', dialog_title='Adding'%}
+{% include 'file/dialog.html' %}
+{% endwith %}
+
+{% with dialog_type='edit', dialog_title='Editing'%}
+{% include 'file/dialog.html' %}
+{% endwith %}
+
+{% endblock %}

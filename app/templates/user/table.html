@@ -1,0 +1,57 @@
+{% extends 'baseTable.html' %}
+
+{% block tableContent %}
+<div class="header">
+    <div class="filter user">Username</div>
+    <div class="filter files">Downloaded files</div>
+    <div class="filter is-admin">Admin</div>
+
+    <div class="entry-button add" onclick="openUserAddDialog()">
+        <img src="{{url_for('static', filename='img/Add.svg')}}">
+    </div>
+
+</div>
+
+<div class="content">
+    {% for user in users %}
+    <div class="entry">
+        <div class="entry-attribute user">{{ user.username }}</div>
+        <div class="entry-attribute files">
+            {% if user.downloads %}
+            <input type="text" value="{{ user.downloads[-1].file.name }}" readonly>
+            <div class="open-list-button dropdown-button"
+                 onclick="toggleDropdown('filesDropdown {{user.id}}')">
+                <img src="{{ url_for('static', filename='img/SelectArrow.svg') }}">
+            </div>
+
+            <div class="dropdown-menu" id="filesDropdown {{user.id}}">
+                <div class="dropdown-content">
+                    {% for download in user.downloads[1:][::-1] %}
+                    <div class="dropdown-element">
+                        <div class="filename">{{ download.file.name }}</div>
+                        <div class="time">{{ download.timestamp.strftime("%d-%m-%y %H:%M") }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% endif %}
+        </div>
+        <div class="entry-attribute is-admin">{{ user.is_admin }}</div>
+        <div class="entry-button details" onclick="openUserEditDialog('{{ user.id }}')">
+            <img src="{{url_for('static', filename='img/Details.svg')}}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+
+{% with dialog_type='add', dialog_title='Adding'%}
+{% include 'user/dialog.html' %}
+{% endwith %}
+
+{% with dialog_type='edit', dialog_title='Editing'%}
+{% include 'user/dialog.html' %}
+{% endwith %}
+{% endblock %}

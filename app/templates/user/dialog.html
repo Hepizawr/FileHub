@@ -1,0 +1,36 @@
+<div class="dialog {{ dialog_type }}">
+    <div class="dialog-container">
+
+        <div class="dialog-close" onclick="closeDialog('{{ dialog_type }}')">&times;</div>
+        <h1>{{ dialog_title }}</h1>
+
+        <form class="dialog-form" method="post" enctype="multipart/form-data">
+            <div class="dialog-field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            {% if dialog_type == 'add' %}
+            <div class="dialog-field">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" required>
+            </div>
+            {% endif %}
+
+            <div class="dialog-field">
+                <div class="dialog-checkbox">
+                    <label for="is-admin">Admin</label>
+                    <input type="checkbox" id="is-admin" name="is-admin">
+                </div>
+            </div>
+
+            <div class="footer">
+                {% if dialog_type != 'add' %}
+                <a class="dialog-button danger"> Delete </a>
+                {% endif %}
+                <button class="dialog-button success" type="submit">Save</button>
+            </div>
+        </form>
+        </form>
+    </div>
+</div>
