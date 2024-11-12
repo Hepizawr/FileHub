@@ -4,7 +4,7 @@
 
 ## Features
 
-- **User Registration and Authentication**: Users can sign up, log in, and reset their passwords securely.
+- **User Registration and Authentication**: Users can sign up and log in securely, with hashed passwords ensuring data protection.
 - **Admin Management**: Admin users have elevated privileges, allowing them to manage user accounts, view all uploaded files, and delete files if necessary.
 - **File Upload and Download**: Admins can upload files, organize them, and download files on demand.
 - **Search and Filter**: Search files by name and format for quick and easy access.
