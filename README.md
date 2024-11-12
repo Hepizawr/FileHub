@@ -6,7 +6,7 @@
 
 - **User Registration and Authentication**: Users can sign up, log in, and reset their passwords securely.
 - **Admin Management**: Admin users have elevated privileges, allowing them to manage user accounts, view all uploaded files, and delete files if necessary.
-- **File Upload and Download**: Users can upload files, organize them, and download files on demand.
+- **File Upload and Download**: Admins can upload files, organize them, and download files on demand.
 - **Search and Filter**: Search files by name and format for quick and easy access.
 - **Download Tracking**: Tracks file download counts to keep a record of file popularity.
 - **Pagination**: Paginated file lists for efficient browsing, especially for large datasets.
