@@ -16,8 +16,8 @@
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/yourusername/filehub.git
-    cd filehub
+    git clone https://github.com/Hepizawr/FileHub.git
+    cd FileHub
     ```
 
 2. **Set up a virtual environment**:
@@ -59,3 +59,5 @@ To start the development server:
 
 ```bash
 flask run
+
+Open a web browser and navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000) to access the application.
