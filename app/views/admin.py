@@ -1,6 +1,10 @@
 from functools import wraps
+
+import click
 from flask_login import login_required, current_user
 from flask import Blueprint, request, redirect, url_for, current_app, jsonify, send_file, render_template
+
+from app import db
 from app.models import *
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -15,6 +19,24 @@ def admin_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+
+@admin_bp.cli.command('createsuperuser')
+def createsuperuser():
+    username = click.prompt('Username', type=str)
+    password = click.prompt('Password', type=str)
+
+    admin = User(username=username, is_admin=True)
+    admin.set_password(password)
+
+    with current_app.app_context():
+        try:
+            db.session.add(admin)
+            db.session.commit()
+            click.echo('Superuser created successfully.')
+        except Exception as e:
+            db.session.rollback()
+            click.echo(f"Error creating superuser: {e}")
 
 
 @admin_bp.route('/')
