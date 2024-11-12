@@ -1,6 +1,6 @@
 # FileHub
 
-**FileHub** is a file management web application that allows users to store, manage, and retrieve files securely. The application includes an admin dashboard, user roles, and an intuitive interface for browsing and downloading files. Built with Flask, SQLAlchemy, and SQLite, FileHub is designed for scalability and easy deployment.
+**FileHub** is a file-sharing web application designed to facilitate secure file management and access. The system includes two types of users: regular users and administrators, each with different access levels and functionalities. 
 
 ## Features
 
