@@ -50,7 +50,7 @@
     To create an admin user with elevated privileges, run:
 
     ```bash
-    flask admin createsuperuser
+    flask --app "app:create_app()" admin createsuperuser
     ```
 
     You will be prompted to enter a username and password for the superuser account.
