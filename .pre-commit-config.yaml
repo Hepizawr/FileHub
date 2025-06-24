@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        name: isort (import sorting)
+        entry: isort
+        language: system
+        types: [ python ]
+        args: [ --profile, black ]
+
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 25.1.0
+    hooks:
+      - id: black
+        exclude: ^.*\b(migrations)\b.*$
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: ''
+    hooks:
+      - id: mypy
+        args: [ --strict, --ignore-missing-imports ]
+        additional_dependencies: [ tokenize-rt==3.2.0 ]

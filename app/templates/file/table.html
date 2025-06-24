@@ -7,7 +7,7 @@
     <div class="filter downloads">Downloads</div>
 
     {% if current_user.is_admin %}
-    <div class="entry-button add" onclick="openFileAddDialog()">
+    <div class="entry-button add" onclick="openAddDialog('/api/files')">
         <img src="{{url_for('static', filename='img/Add.svg')}}">
     </div>
     {% endif %}
@@ -26,9 +26,12 @@
         </div>
 
         {% else%}
-        <a class="entry-button download" href="{{ url_for('file.download', file_id=file.id) }}">
+        <!--        <a class="entry-button download" href="{{ url_for('api.download_file', file_id=file.id) }}">-->
+        <!--            <img src="{{url_for('static', filename='img/Download.svg')}}">-->
+        <!--        </a>-->
+        <button class="entry-button download" onclick="downloadFile('/api/files/{{ file.id }}/download')">
             <img src="{{url_for('static', filename='img/Download.svg')}}">
-        </a>
+        </button>
         {% endif %}
 
 

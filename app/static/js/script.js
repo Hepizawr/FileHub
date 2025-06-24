@@ -16,59 +16,114 @@ function closeAllDialogs() {
     popups.forEach(popup => popup.style.display = "none");
 }
 
-function openFileAddDialog() {
-    const dialog = openDialog('add')
-    dialog.querySelector('.dialog-form').action = `/file/create`
+function refreshPage() {
+    window.location.reload();
 }
 
-function openFileEditDialog(file_id) {
-    fetch(`/file/${file_id}`, {method: "GET"})
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch file data");
-            }
-            return response.json();
-        })
-        .then(file => {
-            const dialog = openDialog('edit')
-            dialog.querySelector('.dialog-form').action = `/file/${file.id}/update`
-            dialog.querySelector('#file_name').value = file.name;
-            dialog.querySelector('#file').value = file.url.split(/\\|\//).pop();
-            dialog.querySelector(".file-button.download").href = `/file/${file.id}/download`
-            dialog.querySelector('#allowed-users').value = file.users.map(user => user.username).join(', ');
-            file.users.forEach(user => {
-                dialog.querySelector(`.dropdown-element input#User\\ ${user.id}`).checked = true;
-            });
-            dialog.querySelector('.dialog-button.danger').href = `/file/${file.id}/delete`
-        })
-        .catch(error => {
-            console.error("Error fetching file data:", error);
-        });
+function getFormDataFromInputs(inputs) {
+    const formData = new FormData();
+    Array.from(inputs).forEach(input => {
+        switch (input.type) {
+            case "checkbox":
+            case "radio":
+                // formData.append(input.name, input.checked);
+                formData.append(input.name, input.checked || '');
+                break;
+            case "file":
+                formData.append(input.name, input.files[0] || '');
+                break;
+            default:
+                formData.append(input.name, input.value || '');
+        }
+    });
+    return formData;
 }
 
-function openUserAddDialog() {
-    const dialog = openDialog('add')
-    dialog.querySelector('.dialog-form').action = `/user/create`
+async function submitDeleteRequest(URL) {
+    return fetch(URL, {method: "DELETE"})
 }
 
-function openUserEditDialog(user_id) {
-    fetch(`/user/${user_id}`, {method: "GET"})
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch file data");
-            }
-            return response.json();
-        })
-        .then(user => {
-            const dialog = openDialog('edit')
-            dialog.querySelector('.dialog-form').action = `/user/${user.id}/update`
-            dialog.querySelector('#username').value = user.username;
-            dialog.querySelector('#is-admin').checked = user.is_admin;
-            dialog.querySelector('.dialog-button.danger').href = `/user/${user.id}/delete`
-        })
-        .catch(error => {
-            console.error("Error fetching file data:", error);
-        });
+async function submitData(URL, method, formData) {
+    return fetch(URL, {method: method, body: formData})
+}
+
+async function getData(URL) {
+    const response = await fetch(URL, {method: "GET"})
+    return response.ok ? await response.json() : null;
+}
+
+function openAddDialog(url) {
+    const dialog = openDialog("add")
+    const submitButton = dialog.querySelector("*[type='submit']")
+    submitButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const inputs = dialog.querySelectorAll("*[name]");
+        const formData = getFormDataFromInputs(inputs);
+        const response = await submitData(url, "POST", formData);
+        response.ok && refreshPage();
+    });
+}
+
+async function openFileEditDialog(file_id) {
+    const dialog = openDialog('edit');
+
+    const url = `/api/files/${file_id}`;
+    const data = await getData(url);
+    dialog.querySelector('#file_name').value = data.name;
+    dialog.querySelector('#file').value = data.name + data.format;
+    dialog.querySelector(".file-button.download").href = url + "/download"
+    dialog.querySelector('#allowed-users').value = data.users.map(user => user.username).join(', ');
+    data.users.forEach(user => {
+        dialog.querySelector(`.dropdown-element input#User\\ ${user.id}`).checked = true;
+    });
+    const submitButton = dialog.querySelector("*[type='submit']")
+    submitButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const inputs = dialog.querySelectorAll("*[name]");
+        const formData = getFormDataFromInputs(inputs);
+        const response = await submitData(url, "PATCH", formData);
+        response.ok && refreshPage();
+    });
+    const deleteButton = dialog.querySelector("*[type='delete']")
+    deleteButton.addEventListener("click", async (e) => {
+        e.preventDefault()
+        const response = await submitDeleteRequest(url);
+        response.ok && refreshPage();
+    });
+}
+
+async function openUserEditDialog(user_id) {
+    const dialog = openDialog('edit');
+
+    const url = `/api/users/${user_id}`;
+    const data = await getData(url);
+    dialog.querySelector('#username').value = data.username;
+    dialog.querySelector('#is_admin').checked = data.is_admin;
+    const submitButton = dialog.querySelector("*[type='submit']")
+    submitButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const inputs = dialog.querySelectorAll("*[name]");
+        const formData = getFormDataFromInputs(inputs);
+        const response = await submitData(url, "PATCH", formData);
+        response.ok && refreshPage();
+    });
+    const deleteButton = dialog.querySelector("*[type='delete']")
+    deleteButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const response = await submitDeleteRequest(url);
+        response.ok && refreshPage();
+    });
+}
+
+async function downloadFile(URL) {
+    const response = await fetch(URL, {method: "GET"})
+    if (!response.ok) {
+        const data = await response.json()
+        return alert(data.message)
+    }
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL;
+    return downloadLink.click();
 }
 
 
@@ -112,7 +167,7 @@ function checkUsernameAvailability(input) {
     const warning_field = document.getElementById('auth_warning')
     const send_button = document.getElementsByClassName('dialog-button success')[0]
 
-    fetch(`/user/${user_input}`, {method: "GET"})
+    fetch(`api/users/${user_input}`, {method: "GET"})
         .then(response => {
             if (response.ok) {
                 warning_field.style.display = 'block'

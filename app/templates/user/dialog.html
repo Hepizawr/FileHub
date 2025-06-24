@@ -19,14 +19,14 @@
 
             <div class="dialog-field">
                 <div class="dialog-checkbox">
-                    <label for="is-admin">Admin</label>
-                    <input type="checkbox" id="is-admin" name="is-admin">
+                    <label for="is_admin">Admin</label>
+                    <input type="checkbox" id="is_admin" name="is_admin">
                 </div>
             </div>
 
             <div class="footer">
                 {% if dialog_type != 'add' %}
-                <a class="dialog-button danger"> Delete </a>
+                <button class="dialog-button danger" type="delete"> Delete </button>
                 {% endif %}
                 <button class="dialog-button success" type="submit">Save</button>
             </div>

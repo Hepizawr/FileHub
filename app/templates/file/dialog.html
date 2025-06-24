@@ -33,7 +33,8 @@
                 <label for="allowed-users">Allowed users</label>
                 <div class="handler">
                     <input type="text" id="allowed-users" name="allowed-users" readonly>
-                    <div class="open-list-button dropdown-button" onclick="toggleDropdown('usersDropdown {{ dialog_type }}')">
+                    <div class="open-list-button dropdown-button"
+                         onclick="toggleDropdown('usersDropdown {{ dialog_type }}')">
                         <img src="{{ url_for('static', filename='img/SelectArrow.svg') }}">
                     </div>
                 </div>
@@ -55,7 +56,7 @@
 
             <div class="footer">
                 {% if dialog_type != 'add' %}
-                <a class="dialog-button danger"> Delete </a>
+                <button class="dialog-button danger" type="delete">Delete</button>
                 {% endif %}
                 <button class="dialog-button success" type="submit">Save</button>
             </div>
