@@ -24,6 +24,7 @@ def login():
             if user and user.check_password(form.password.data):
                 login_user(user, remember=True)
                 return redirect(url_for("main.index"))
+        return redirect(url_for("auth.login"))
 
     else:
         context = {
@@ -33,15 +34,29 @@ def login():
         return render_template("auth/login.html", **context)
 
 
-@auth_bp.route("/register", methods=["GET"])
+@auth_bp.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    context = {
-        "title": "Sign up",
-        "form": form,
-    }
+    if request.method == "POST":
+        if form.validate_on_submit():
+            new_user = User(username=form.username.data)
+            new_user.set_password(form.password.data)
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
 
-    return render_template("auth/singup.html", **context)
+            login_user(new_user, remember=True)
+            return redirect(url_for("main.index"))
+        return redirect(url_for("auth.register"))
+
+    else:
+        context = {
+            "title": "Sign up",
+            "form": form,
+        }
+        return render_template("auth/singup.html", **context)
 
 
 @auth_bp.route("/logout", methods=["GET"])

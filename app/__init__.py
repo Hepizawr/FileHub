@@ -25,6 +25,7 @@ def create_app() -> Flask:
 
     with app.app_context():
         from app import api, models, views
+        db.create_all()
 
         app.register_blueprint(views.index_bp)
         app.register_blueprint(views.auth.auth_bp)

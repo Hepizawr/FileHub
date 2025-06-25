@@ -167,7 +167,7 @@ function checkUsernameAvailability(input) {
     const warning_field = document.getElementById('auth_warning')
     const send_button = document.getElementsByClassName('dialog-button success')[0]
 
-    fetch(`api/users/${user_input}`, {method: "GET"})
+    fetch(`/api/users/${user_input}`, {method: "GET"})
         .then(response => {
             if (response.ok) {
                 warning_field.style.display = 'block'

@@ -23,11 +23,10 @@ def get_user_by_id(user_id):
 
 
 @api_bp.route("/users/<string:username>", methods=["GET"])
-@admin_required()
-def get_user_by_username(username):
-    if not (user := db_model.User.query.filter_by(username=username).first()):
+def check_user_by_username(username):
+    if not (db_model.User.query.filter_by(username=username).first()):
         return jsonify({"message": "User not found"}), 404
-    return jsonify(utils.convert_db_model_to_dict(user)), 200
+    return jsonify(), 200
 
 
 @api_bp.route("/users", methods=["POST"])
