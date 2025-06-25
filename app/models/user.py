@@ -11,8 +11,8 @@ class User(db.Model, UserMixin):
     __tablename__ = "user"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password_hash = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
+    password_hash = db.Column(db.String(), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     _files = db.relationship(

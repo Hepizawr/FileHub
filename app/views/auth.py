@@ -12,7 +12,8 @@ auth_bp = Blueprint("auth", __name__)
 
 @login_manager.user_loader
 def load_user(user_id: str) -> User:
-    return db.session.query(User).get(uuid.UUID(user_id))
+    user_id = uuid.UUID(user_id)
+    return User.query.filter_by(id=user_id).first()
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -39,7 +40,7 @@ def register():
     form = RegisterForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            new_user = User(username=form.username.data)
+            new_user = User(id=uuid.uuid4(), username=form.username.data)
             new_user.set_password(form.password.data)
             try:
                 db.session.add(new_user)
